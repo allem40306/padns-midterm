@@ -1,11 +1,11 @@
 import axios from "axios";
 
 const services = {};
-const API_HOST = "https://r10525069-padns-midterm.herokuapp.com"//"http://localhost:3001";
+const API_HOST = "http://localhost:3001";//"https://r10525069-padns-midterm.herokuapp.com"
 
 const instance = axios.create({
   baseURL: `${API_HOST}/api`,
-  xsrfCookieName: "XSRF-TOKEN",
+  xsrfCookieName: "X-XSRF-TOKEN",
   xsrfHeaderName: "X-XSRF-TOKEN",
   withCredentials: true,
 });

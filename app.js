@@ -57,11 +57,11 @@ app.use(
       domain: API.host,
       path: "/",
       httpOnly: true,
-      secure: true,
+      secure: false,
       maxAge: 1000 * 1000,
-      sameSite: "none",
+      // sameSite: "none",
     },
-    secret: "secret", // change to random string
+    secret: process.env.SESSION_SECRET, // change to random string
     name: "sessionId", // don't omit this option
     resave: false,
     saveUninitialized: false,
@@ -75,6 +75,7 @@ app.use(csrfProtection);
 // });
 
 app.get("/api/csrf", (req, res) => {
+  console.log("req: ", req);
   // The common pattern is to send csrt token in HTTP response Set-Cookie
   // and then send it with X-XSRF-Token in HTTP request header
   // Since we separate the api and web server, we can't set cookie for web server
@@ -126,6 +127,5 @@ app.get("*", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(process.env.NODE_ENV);
   console.log(`Example app listening at http://localhost:${port}`);
 });
