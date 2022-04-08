@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const services = {};
-const API_HOST = "http://localhost:3001";//"https://r10525069-padns-midterm.herokuapp.com"
+const API_HOST = process.env.NODE_ENV === "production" ? "https://r10525069-padns-midterm.herokuapp.com" : "http://localhost:3001";
 
 const instance = axios.create({
   baseURL: `${API_HOST}/api`,

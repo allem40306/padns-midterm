@@ -21,9 +21,9 @@ function Navbar() {
 
   useEffect(() => {
     console.log("update Navbar");
+    console.log(process.env.NODE_ENV)
     services.auth.loginCheck().then((res) => {
       setLoggin(res.data.loggedIn);
-      console.log(isLoggin)
     });
   }, [isLoggin]);
 
