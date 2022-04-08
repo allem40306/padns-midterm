@@ -3,6 +3,7 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import About from "./components/About";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
+import Logout from "./components/Logout";
 import SignUp from "./components/SignUp";
 import services from "./services";
 
@@ -23,9 +24,9 @@ function App() {
         <Route exact path="/signup">
           <SignUp />
         </Route>
-        {/* <Route exact path="/users">
-          <Users />
-        </Route> */}
+        <Route exact path="/logout">
+          <Logout />
+        </Route>
       </Switch>
     </Router>
   );

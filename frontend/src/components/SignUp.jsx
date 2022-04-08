@@ -29,24 +29,31 @@ function SignUp() {
   /** @type {React.FormEventHandler<HTMLFormElement>} */
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    services.user
-      .post({
-        username: textInput.username,
-        password: textInput.password,
-        file: file,
-        withCredentials: true,
-      })
-      .then((res) => {
-        if (res.data === "User added") {
-          console.log("User added");
-          history.push("./");
-          history.go();
-        } else {
-          setSignUpNotation.log(res.data);
-        }
-      });
+    const fd = new FormData();
+    fd.append("username", textInput.username);
+    fd.append("password", textInput.password);
+    fd.append("file", file);
+    console.log(file);
+    console.log(Array.from(fd));
+    services.user.post(fd).then((res) => {
+      if (res.data === "User added") {
+        console.log("User added");
+        history.push("./");
+        history.go();
+      } else {
+        setSignUpNotation(res.data);
+      }
+    });
     setTextInput((prev) => ({ ...prev, username: "", password: "" }));
   };
+
+  useEffect(() => {
+    services.auth.loginCheck().then((res) => {
+      if (res.data.loggedIn === true) {
+        history.push("/");
+      }
+    });
+  }, [history]);
 
   return (
     <div className="px-6">

@@ -20,7 +20,7 @@ const controller = {
   async create(req, res, next) {
     console.log("Call User: createuser");
     obj = req.body;
-    const user = await User.get({
+    const user = await User.findOne({
       where: {
         username: obj.username
       }
@@ -29,7 +29,6 @@ const controller = {
       const user = await User.create({
         username: obj.username,
         password: obj.password,
-        userid: inputuserid,
         picture: req.file.filename
       });
       res.status(200).send("User added");
@@ -45,16 +44,18 @@ const controller = {
   },
   async login(req, res, next) {
     console.log("Call User: login");
-    const user = await User.get({
+    const user = await User.findOne({
       where: {
         username: req.body.username
       }
     })
+    console.log(user);
     if (user === null) {
       res.status(200).send("Invalid User");
     } else if (user.password === req.body.password) {
-      res.session.username = user.username;
-      res.session.picutre = user.picutre;
+      console.log(user.username)
+      console.log(req.session)
+      req.session.username = user.username;
       res.status(200).send("Success login");
     } else {
       res.status(200).send("Wrong passoword");
@@ -62,7 +63,8 @@ const controller = {
   },
   async loginCheck(req, res, next) {
     console.log("Call User: logincheck");
-    if (req.session.user) {
+    console.log(req.session)
+    if (req.session.username) {
       res.send({ loggedIn: true, user: req.session.user, picture: req.session.picture });
     } else {
       res.send({ loggedIn: false });
@@ -70,7 +72,7 @@ const controller = {
   },
   async logout(req, res, next) {
     console.log("Call User: logout");
-    req.session.user = null;
+    req.session.username = null;
     res.send({ loggedIn: false, user: req.session.user });
   },
 }

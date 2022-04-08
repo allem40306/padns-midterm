@@ -75,7 +75,6 @@ app.use(csrfProtection);
 // });
 
 app.get("/api/csrf", (req, res) => {
-  console.log("req: ", req);
   // The common pattern is to send csrt token in HTTP response Set-Cookie
   // and then send it with X-XSRF-Token in HTTP request header
   // Since we separate the api and web server, we can't set cookie for web server

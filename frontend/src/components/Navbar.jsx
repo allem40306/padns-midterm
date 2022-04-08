@@ -1,16 +1,14 @@
 // https://tailwindui.com/components/application-ui/navigation/navbars
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Transition } from "react-transition-group";
 import services from "../services";
 
 function Navbar() {
-  const [isUserMenuOpen, setUserMenuOpen] = useState(false);
+  // const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   const [isLoggin, setLoggin] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const nodeRef = useRef(null);
   const { pathname } = useLocation();
-  const switchUserMenuOpen = () => setUserMenuOpen((prev) => !prev);
+  // const switchUserMenuOpen = () => setUserMenuOpen((prev) => !prev);
   const switchMobileMenuOpen = () => setMobileMenuOpen((prev) => !prev);
   const linkClass = (to) =>
     pathname === to
@@ -20,14 +18,15 @@ function Navbar() {
     pathname === to
       ? "bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
       : "text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium";
+
   useEffect(() => {
     console.log("update Navbar");
-    async function updateNavbar() {
-      services.auth.loginCheck().then((res) => {
-        setLoggin(res.data.loggedIn );
-      });
-    }
-  }, []);
+    services.auth.loginCheck().then((res) => {
+      setLoggin(res.data.loggedIn);
+      console.log(isLoggin)
+    });
+  }, [isLoggin]);
+
   return (
     <nav className="bg-gray-800">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -109,15 +108,22 @@ function Navbar() {
                 <Link to="/team" className={linkClass("/chat")}>
                   Chat
                 </Link>
-                <Link to="/login" className={(isLoggin ? "hidden ": "") + linkClass("/login")}>
-                  Login
-                </Link>
-                <Link to="/signup" className={(isLoggin ? "hidden ": "") + linkClass("/signup")}>
-                  Signup
-                </Link>
-                <Link to="/users" className={(isLoggin ? "": "hidden ") + linkClass("/users")}>
-                  Users
-                </Link>
+                {isLoggin ? (
+                  <>
+                    <Link to="/logout" className={linkClass("/logout")}>
+                      Logout
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login" className={linkClass("/login")}>
+                      Login
+                    </Link>
+                    <Link to="/signup" className={linkClass("/signup")}>
+                      Signup
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

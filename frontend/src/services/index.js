@@ -5,9 +5,9 @@ const API_HOST = "http://localhost:3001";//"https://r10525069-padns-midterm.hero
 
 const instance = axios.create({
   baseURL: `${API_HOST}/api`,
+  withCredentials: true,
   xsrfCookieName: "X-XSRF-TOKEN",
   xsrfHeaderName: "X-XSRF-TOKEN",
-  withCredentials: true,
 });
 
 const checkSession = () => {

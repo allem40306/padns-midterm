@@ -33,6 +33,7 @@ function Login() {
         if (res.data === "Success login") {
           console.log("Success login and redirect");
           history.push("./");
+          history.go(0);
         } else {
           console.log(res.data);
           setLoginNotation(res.data);
@@ -40,6 +41,14 @@ function Login() {
       });
     setTextInput((prev) => ({ ...prev, username: "", password: "" }));
   };
+
+  useEffect(() => {
+    services.auth.loginCheck().then((res) => {
+      if (res.data.loggedIn === true) {
+        history.push("/");
+      }
+    });
+  }, [history]);
 
   return (
     <div className="px-6">
