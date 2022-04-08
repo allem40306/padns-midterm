@@ -16,7 +16,6 @@ const checkSession = () => {
     .get("/csrf")
     .then(({ data, headers }) => {
       const token = headers["x-xsrf-token"];
-      console.log(headers)
       instance.defaults.headers.common["X-XSRF-Token"] = token;
       const firstTime = (data && data.firstTime) || false;
       if (firstTime) {
@@ -102,9 +101,7 @@ const makeComment = (instance) => ({
     });
   },
   post(payload) {
-    return checkSession().then(() => {
-      return instance.post(`/Comments`, payload);
-    });
+    return instance.post(`/Comments`, payload);
   },
   del(payload) {
     return checkSession().then(() => {

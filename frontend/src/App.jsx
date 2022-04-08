@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import About from "./components/About";
+import Chat from "./components/Chat";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
@@ -17,6 +18,9 @@ function App() {
       <Switch>
         <Route exact path="/">
           <About />
+        </Route>
+        <Route exact path="/chat">
+          <Chat />
         </Route>
         <Route exact path="/login">
           <Login />

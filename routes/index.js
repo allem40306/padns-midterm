@@ -20,7 +20,7 @@ const upload = multer({ storage: storage });
 api.get("/users", User.getAll);
 api.get("/users/:username", User.get);
 api.post("/users", upload.single('file'), User.create);
-api.get("/picture/:filename", User.getPicture);
+api.get("/pictures/:filename", User.getPictures);
 
 api.post("/login", User.login);
 api.get("/logincheck", User.loginCheck);

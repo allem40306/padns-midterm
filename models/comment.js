@@ -14,8 +14,7 @@ Comment.init(
   {
     username: {type: DataTypes.STRING},
     content: {type: DataTypes.STRING},
-    picture: {type: DataTypes.STRING},
-    commentid: {type: DataTypes.INTEGER, allowNull: false}
+    picture: {type: DataTypes.STRING}
   },
   { sequelize, modelName: "comment" }
 );

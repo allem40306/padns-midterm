@@ -25,8 +25,7 @@ Comment.init(
   {
     username: {type: DataTypes.STRING},
     content: {type: DataTypes.STRING},
-    picture: {type: DataTypes.STRING},
-    commentid: {type: DataTypes.INTEGER, allowNull: false}
+    picture: {type: DataTypes.STRING}
   },
   { sequelize, modelName: "comment" }
 );
@@ -34,8 +33,10 @@ Comment.init(
 
 async function show() {
   await sequelize.sync();
-  const users = await User.findAll();
-  console.log(users);
+  const comments = await Comment.findAll();
+  console.log(comments);
 };
 
 show();
+
+// Comment.drop();

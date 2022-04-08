@@ -1,4 +1,5 @@
 const { User } = require("../models");
+const path = require("path")
 
 const controller = {
   getAll(req, res, next) {
@@ -37,9 +38,8 @@ const controller = {
       res.status(200).send("User already exist");
     }
   },
-  getPicture(req, res, next) {
-    console.log("Call User: getpicture");
-    console.log("req.params.filename", req.params.filename);
+  getPictures(req, res, next) {
+    console.log("Call User: getpictures");
     res.sendFile(path.join(__dirname, '../uploads', req.params.filename));
   },
   async login(req, res, next) {
@@ -53,9 +53,8 @@ const controller = {
     if (user === null) {
       res.status(200).send("Invalid User");
     } else if (user.password === req.body.password) {
-      console.log(user.username)
-      console.log(req.session)
       req.session.username = user.username;
+      req.session.picture = user.picture;
       res.status(200).send("Success login");
     } else {
       res.status(200).send("Wrong passoword");
@@ -63,9 +62,8 @@ const controller = {
   },
   async loginCheck(req, res, next) {
     console.log("Call User: logincheck");
-    console.log(req.session)
     if (req.session.username) {
-      res.send({ loggedIn: true, user: req.session.user, picture: req.session.picture });
+      res.send({ loggedIn: true, username: req.session.username, picture: req.session.picture });
     } else {
       res.send({ loggedIn: false });
     }

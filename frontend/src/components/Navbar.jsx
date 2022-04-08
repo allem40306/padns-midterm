@@ -105,7 +105,7 @@ function Navbar() {
                 <Link to="/" className={linkClass("/")}>
                   Info
                 </Link>
-                <Link to="/team" className={linkClass("/chat")}>
+                <Link to="/chat" className={linkClass("/chat")}>
                   Chat
                 </Link>
                 {isLoggin ? (
