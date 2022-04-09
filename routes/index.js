@@ -29,6 +29,6 @@ api.get("/logout", User.logout);
 api.get("/comments", Comment.getAll);
 api.get("/comments/:commentid", Comment.get);
 api.post("/comments", Comment.create);
-api.delete("/comments", Comment.del);
+api.delete("/comments/:commentid", Comment.del);
 
 module.exports = { api };

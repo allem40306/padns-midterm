@@ -16,6 +16,7 @@ function Chat() {
     { message: "" }
   );
   const [comments, setComments] = useState([]);
+  const [delAlert, setDelAlert] = useState("");
   let history = useHistory();
 
   /** @type {React.ChangeEventHandler<HTMLInputElement>} */
@@ -56,6 +57,21 @@ function Chat() {
     });
   }
 
+  async function deleteComments(username, content, id) {
+    services.comment
+      .del(id, {
+        username: username,
+        content: content,
+        status: user.status,
+      })
+      .then((res) => {
+        setDelAlert(res.data);
+        if (res.data === "Comment deleted") {
+          loadComments();
+        }
+      });
+  }
+
   useEffect(() => {
     services.auth.loginCheck().then((res) => {
       if (res.data.loggedIn === false) {
@@ -64,7 +80,7 @@ function Chat() {
         setUser({
           username: res.data.username,
           picture: res.data.picture,
-          status: res.data.status,
+          status: res.data.loggedIn,
         });
       }
     });
@@ -131,6 +147,12 @@ function Chat() {
           </button>
         </form>
       </div>
+      <div
+        className="grid grid-cols-1 gap-6"
+        style={{ whiteSpace: "pre-wrap" }}
+      >
+        {delAlert}
+      </div>
       <div className="flex flex-col">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -159,14 +181,15 @@ function Chat() {
                     <th
                       scope="col"
                       className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                    >
-                      
-                    </th>
+                    ></th>
                   </tr>
                 </thead>
                 <tbody>
                   {comments.map((comment, index) => (
-                    <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                    <tr
+                      key={index}
+                      className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                    >
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {index}
                       </td>
@@ -180,6 +203,26 @@ function Chat() {
                       </td>
                       <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                         {comment.content}
+                      </td>
+                      <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                        {comment.username === user.username ? (
+                          <button
+                            style={{
+                              width: "120px",
+                              height: "40px",
+                              border: "2px",
+                            }}
+                            onClick={() =>
+                              deleteComments(
+                                comment.username,
+                                comment.content,
+                                comment.id
+                              )
+                            }
+                          >
+                            delete
+                          </button>
+                        ) : null}
                       </td>
                     </tr>
                   ))}

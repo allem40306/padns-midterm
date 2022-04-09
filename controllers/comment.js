@@ -11,7 +11,7 @@ const controller = {
     console.log("Call Comment: get");
     Comment.findOne({
       where: {
-        commentid: req.params.commentid,
+        id: req.params.commentid,
       },
     })
       .then((instance) => res.status(200).send(instance))
@@ -20,6 +20,7 @@ const controller = {
   async create(req, res, next) {
     console.log("Call Comment: createComment");
     obj = req.body;
+    console.log(obj);
     const comment = await Comment.create({
       username: obj.username,
       content: obj.content,
@@ -31,14 +32,19 @@ const controller = {
   async del(req, res, next) {
     console.log("Call Comment: deleteComment");
     obj = req.body;
+    console.log(obj);
     const comment = await Comment.findOne({
-      commentid: obj.commentid
-    });
-    if (obj.username === item.username && obj.comment === item.comment && obj.id === item.id && obj.status === true) {
+      where: {
+        id: req.params.commentid,
+      },
+    })
+    if (obj.username === comment.username && obj.content === comment.content && obj.status === true) {
       console.log(obj.username + " wants to delete id:" + obj.id);
-      const response = await item.destroy();
-      console.log(response);
+      const response = await comment.destroy();
       res.status(200).send("Comment deleted");
+    }
+    else{
+      res.status(200).send("Invaild delete request");
     }
   },
 }

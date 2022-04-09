@@ -91,22 +91,16 @@ const makeUser = (instance) => ({
 /** @param {import("axios").AxiosInstance} instance */
 const makeComment = (instance) => ({
   getAll() {
-    return checkSession().then(() => {
-      return instance.get(`/comments`);
-    });
+    return instance.get(`/comments`);
   },
   get(commentid) {
-    return checkSession().then(() => {
-      return instance.get(`/comments/${commentid}`);
-    });
+    return instance.get(`/comments/${commentid}`);
   },
   post(payload) {
-    return instance.post(`/Comments`, payload);
+    return instance.post(`/comments`, payload);
   },
-  del(payload) {
-    return checkSession().then(() => {
-      return instance.delete(`/Comments`, payload);
-    });
+  del(commentid, payload) {
+    return instance.delete(`/comments/${commentid}`, {data: payload});
   },
 });
 
